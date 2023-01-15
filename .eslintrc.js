@@ -23,5 +23,26 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'no-console': 1,
+    'no-useless-constructor': 0,
+    'import/prefer-default-export': 0,
+    'import/extensions': 0,
+    'import/no-unresolved': 0,
+    'no-void': 0,
+    'class-methods-use-this': 0,
+    '@typescript-eslint/no-empty-interface': 0,
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    '@typescript-eslint/no-unused-vars': [
+      0,
+      {
+        varsIgnorePattern: '_',
+      },
+    ],
+    '@typescript-eslint/no-floating-promises': [
+      'error',
+      {
+        ignoreIIFE: true,
+      },
+    ],
   },
 };
