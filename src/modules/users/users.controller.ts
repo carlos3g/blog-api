@@ -1,4 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+
+import { Request } from 'express';
+
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -14,21 +18,22 @@ export class UsersController {
   }
 
   @Get(':id')
-  public async findOne(@Param('id') id: number) {
-    const user = await this.usersService.findOne({ id: +id });
-
+  public async findOne(@Req() req: Request) {
+    const user = await this.usersService.findOne({ id: +req.user.userId });
     const { password: _, ...userWithoutPassword } = user;
 
     return userWithoutPassword;
   }
 
-  @Patch(':id')
-  public update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @UseGuards(JwtAuthGuard)
+  @Patch()
+  public update(@Req() req: Request, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(+req.user.userId, updateUserDto);
   }
 
-  @Delete(':id')
-  public remove(@Param('id') id: string) {
-    return this.usersService.delete(+id);
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  public remove(@Req() req: Request) {
+    return this.usersService.delete(+req.user.userId);
   }
 }
