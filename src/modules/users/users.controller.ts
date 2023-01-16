@@ -14,8 +14,8 @@ export class UsersController {
   }
 
   @Get(':id')
-  public async findOne(@Param('id') id: string) {
-    const user = await this.usersService.findOne(+id);
+  public async findOne(@Param('id') id: number) {
+    const user = await this.usersService.findOne({ id: +id });
 
     const { password: _, ...userWithoutPassword } = user;
 

@@ -6,6 +6,7 @@ import { PrismaService } from '@shared/services/prisma.service';
 import { slugify } from '@shared/utils/slugify';
 
 import { CreateUserDto } from '../dto/create-user.dto';
+import { FindUserDto } from '../dto/find-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
 
@@ -31,8 +32,8 @@ export class UsersRepository {
     return users;
   }
 
-  public async findOne(id: number): Promise<User> {
-    const user = await this.prisma.user.findUnique({ where: { id } });
+  public async findOne(criteria: FindUserDto): Promise<User> {
+    const user = await this.prisma.user.findUnique({ where: criteria });
 
     return user;
   }
