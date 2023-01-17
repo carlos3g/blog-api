@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { hash } from 'bcryptjs';
 
+import { Post } from '@modules/posts/entities/post.entity';
 import { PrismaService } from '@shared/services/prisma.service';
 import { slugify } from '@shared/utils/slugify';
 
@@ -36,6 +37,12 @@ export class UsersRepository {
     const user = await this.prisma.user.findUnique({ where: criteria });
 
     return user;
+  }
+
+  public async findUserPosts(id: number): Promise<Post[]> {
+    const posts = await this.prisma.post.findMany({ where: { userId: id } });
+
+    return posts;
   }
 
   public async update(id: number, data: UpdateUserDto): Promise<User> {

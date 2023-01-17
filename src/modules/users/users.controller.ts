@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Delete, UseGuards, Req, Param } from '@nestjs/common';
 
 import { Request } from 'express';
 
@@ -17,9 +17,16 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Get(':id/posts')
+  public async findUserPosts(@Param('id') id: string) {
+    const posts = await this.usersService.findUserPosts(+id);
+
+    return posts;
+  }
+
   @Get(':id')
-  public async findOne(@Req() req: Request) {
-    const user = await this.usersService.findOne({ id: +req.user.userId });
+  public async findOne(@Param('id') id: string) {
+    const user = await this.usersService.findOne({ id: +id });
     const { password: _, ...userWithoutPassword } = user;
 
     return userWithoutPassword;

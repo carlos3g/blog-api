@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import { Post } from '@modules/posts/entities/post.entity';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -26,6 +28,12 @@ export class UsersService {
     const user = await this.usersRepository.findOne(criteria);
 
     return user;
+  }
+
+  public async findUserPosts(id: number): Promise<Post[]> {
+    const posts = await this.usersRepository.findUserPosts(id);
+
+    return posts;
   }
 
   public async update(id: number, data: UpdateUserDto): Promise<User> {
