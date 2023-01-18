@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { Post } from '@modules/posts/entities/post.entity';
-import { PrismaService } from '@shared/services/prisma.service';
+import { Post } from '@modules/posts/entities';
+import { PrismaService } from '@shared/services';
 
-import { FindUserDto } from '../dto/find-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { User } from '../entities/user.entity';
+import { FindUserDto, UpdateUserDto } from '../dto';
+import { User } from '../entities';
 
 @Injectable()
 export class UsersRepository {

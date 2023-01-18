@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import { PrismaService } from '@shared/services/prisma.service';
+import { PrismaService } from '@shared/services';
 
 import { CreatePostDto, FindAllPostsDTO, UpdatePostDto } from '../dto';
-import { Post } from '../entities/post.entity';
+import { Post } from '../entities';
 
 @Injectable()
 export class PostsRepository {

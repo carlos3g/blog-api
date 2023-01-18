@@ -2,11 +2,10 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuard
 
 import { Request } from 'express';
 
-import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '@modules/auth/guards';
 
 import { CreateCommentDto, CreatePostDto, FindAllPostsDTO, UpdatePostDto } from './dto';
-import { CommentsService } from './services/comments.service';
-import { PostsService } from './services/posts.service';
+import { CommentsService, PostsService } from './services';
 
 @Controller('posts')
 export class PostsController {

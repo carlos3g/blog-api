@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 
-import { PrismaService } from './shared/services/prisma.service';
+import { PrismaService } from '@shared/services';
 
 import { AppModule } from './app.module';
 

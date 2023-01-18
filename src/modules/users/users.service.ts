@@ -2,14 +2,12 @@ import { Injectable } from '@nestjs/common';
 
 import { hash } from 'bcryptjs';
 
-import { Post } from '@modules/posts/entities/post.entity';
-import { slugify } from '@shared/utils/slugify';
+import { Post } from '@modules/posts/entities';
+import { slugify } from '@shared/utils';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { FindUserDto } from './dto/find-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
-import { UsersRepository } from './repositories/users.repository';
+import { CreateUserDto, FindUserDto, UpdateUserDto } from './dto';
+import { User } from './entities';
+import { UsersRepository } from './repositories';
 
 @Injectable()
 export class UsersService {
