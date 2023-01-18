@@ -13,33 +13,31 @@ export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
   public async create(data: CreateUserDto): Promise<User> {
-    const user = await this.usersRepository.create(data);
-
-    return user;
+    return this.usersRepository.create(data);
   }
 
   public async findAll(): Promise<User[]> {
-    const users = await this.usersRepository.findAll();
-
-    return users;
+    return this.usersRepository.findAll();
   }
 
   public async findOne(criteria: FindUserDto): Promise<User> {
-    const user = await this.usersRepository.findOne(criteria);
+    return this.usersRepository.findOne(criteria);
+  }
 
-    return user;
+  public async findUserFavoritePosts(userId: number): Promise<Post[]> {
+    return this.usersRepository.findUserFavoritePosts(userId);
+  }
+
+  public async favoritePost(userId: number, postId: number): Promise<void> {
+    await this.usersRepository.favoritePost(userId, postId);
   }
 
   public async findUserPosts(id: number): Promise<Post[]> {
-    const posts = await this.usersRepository.findUserPosts(id);
-
-    return posts;
+    return this.usersRepository.findUserPosts(id);
   }
 
   public async update(id: number, data: UpdateUserDto): Promise<User> {
-    const user = await this.usersRepository.update(id, data);
-
-    return user;
+    return this.usersRepository.update(id, data);
   }
 
   public async delete(id: number): Promise<boolean> {

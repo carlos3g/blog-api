@@ -39,10 +39,26 @@ export class UsersRepository {
     return user;
   }
 
-  public async findUserPosts(id: number): Promise<Post[]> {
-    const posts = await this.prisma.post.findMany({ where: { userId: id } });
+  public async findUserPosts(userId: number): Promise<Post[]> {
+    const posts = await this.prisma.post.findMany({ where: { userId } });
 
     return posts;
+  }
+
+  public async findUserFavoritePosts(userId: number): Promise<Post[]> {
+    const posts = await this.prisma.post.findMany({
+      where: {
+        users_favorite_posts: {
+          some: { userId },
+        },
+      },
+    });
+
+    return posts;
+  }
+
+  public async favoritePost(userId: number, postId: number): Promise<void> {
+    await this.prisma.usersFavoritePosts.create({ data: { postId, userId } });
   }
 
   public async update(id: number, data: UpdateUserDto): Promise<User> {

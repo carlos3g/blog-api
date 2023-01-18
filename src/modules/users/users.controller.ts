@@ -19,9 +19,12 @@ export class UsersController {
 
   @Get(':id/posts')
   public async findUserPosts(@Param('id') id: string) {
-    const posts = await this.usersService.findUserPosts(+id);
+    return this.usersService.findUserPosts(+id);
+  }
 
-    return posts;
+  @Get(':id/favorites')
+  public async findUserFavoritePosts(@Param('id') id: string) {
+    return this.usersService.findUserFavoritePosts(+id);
   }
 
   @Get(':id')
