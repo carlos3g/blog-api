@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { hash } from 'bcryptjs';
-
 import { Post } from '@modules/posts/entities/post.entity';
 import { PrismaService } from '@shared/services/prisma.service';
-import { slugify } from '@shared/utils/slugify';
 
-import { CreateUserDto } from '../dto/create-user.dto';
 import { FindUserDto } from '../dto/find-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
@@ -15,14 +11,8 @@ import { User } from '../entities/user.entity';
 export class UsersRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(data: CreateUserDto): Promise<User> {
-    const user = await this.prisma.user.create({
-      data: {
-        ...data,
-        slug: slugify(data.name),
-        password: await hash(data.password, 8),
-      },
-    });
+  public async create(data: Omit<User, 'id'>): Promise<User> {
+    const user = await this.prisma.user.create({ data });
 
     return user;
   }
@@ -62,15 +52,7 @@ export class UsersRepository {
   }
 
   public async update(id: number, data: UpdateUserDto): Promise<User> {
-    const hashedPassword = data.password ? await hash(data.password, 8) : undefined;
-
-    const user = await this.prisma.user.update({
-      where: { id },
-      data: {
-        ...data,
-        password: hashedPassword,
-      },
-    });
+    const user = await this.prisma.user.update({ where: { id }, data });
 
     return user;
   }

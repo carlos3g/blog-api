@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
+import { hash } from 'bcryptjs';
+
 import { Post } from '@modules/posts/entities/post.entity';
+import { slugify } from '@shared/utils/slugify';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
@@ -13,7 +16,10 @@ export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
   public async create(data: CreateUserDto): Promise<User> {
-    return this.usersRepository.create(data);
+    const hashedPassword = await hash(data.password, 8);
+    const slug = slugify(data.name);
+
+    return this.usersRepository.create({ ...data, slug, password: hashedPassword });
   }
 
   public async findAll(): Promise<User[]> {
@@ -37,7 +43,9 @@ export class UsersService {
   }
 
   public async update(id: number, data: UpdateUserDto): Promise<User> {
-    return this.usersRepository.update(id, data);
+    const hashedPassword = data.password ? await hash(data.password, 8) : undefined;
+
+    return this.usersRepository.update(id, { ...data, password: hashedPassword });
   }
 
   public async delete(id: number): Promise<boolean> {
