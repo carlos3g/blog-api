@@ -10,48 +10,30 @@ export class CommentsRepository {
   constructor(private prisma: PrismaService) {}
 
   public async create(data: CreateCommentDto): Promise<Comment> {
-    const comment = this.prisma.comment.create({ data });
-
-    return comment;
+    return this.prisma.comment.create({ data });
   }
 
   public async findAll(): Promise<Comment[]> {
-    const comments = this.prisma.comment.findMany();
-
-    return comments;
+    return this.prisma.comment.findMany();
   }
 
   public async findOne(id: number): Promise<Comment> {
-    const comment = this.prisma.comment.findUnique({ where: { id } });
-
-    return comment;
+    return this.prisma.comment.findUnique({ where: { id } });
   }
 
   public async findCommentsByPost(postId: number): Promise<Comment[]> {
-    const comments = this.prisma.comment.findMany({ where: { postId } });
-
-    return comments;
+    return this.prisma.comment.findMany({ where: { postId } });
   }
 
   public async findCommentsByUser(userId: number): Promise<Comment[]> {
-    const comments = this.prisma.comment.findMany({ where: { userId } });
-
-    return comments;
+    return this.prisma.comment.findMany({ where: { userId } });
   }
 
   public async update(id: number, data: UpdateCommentDto): Promise<Comment> {
-    const comment = this.prisma.comment.update({ where: { id }, data });
-
-    return comment;
+    return this.prisma.comment.update({ where: { id }, data });
   }
 
-  public async delete(id: number): Promise<boolean> {
-    const comment = await this.prisma.comment.delete({ where: { id } });
-
-    if (comment) {
-      return true;
-    }
-
-    return false;
+  public async delete(id: number): Promise<void> {
+    await this.prisma.comment.delete({ where: { id } });
   }
 }

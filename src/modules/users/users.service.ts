@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { hash } from 'bcryptjs';
 
@@ -14,6 +14,10 @@ export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
   public async create(data: CreateUserDto): Promise<User> {
+    if (await this.isEmailAlreadyTaken(data.email)) {
+      throw new ConflictException(undefined, { description: 'Email already taken' });
+    }
+
     const hashedPassword = await hash(data.password, 8);
     const slug = slugify(data.name);
 
@@ -25,7 +29,13 @@ export class UsersService {
   }
 
   public async findOne(criteria: FindUserDto): Promise<User> {
-    return this.usersRepository.findOne(criteria);
+    const user = await this.usersRepository.findOne(criteria);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return user;
   }
 
   public async findUserFavoritePosts(userId: number): Promise<Post[]> {
@@ -41,13 +51,24 @@ export class UsersService {
   }
 
   public async update(id: number, data: UpdateUserDto): Promise<User> {
+    await this.findOne({ id });
+
+    if (await this.isEmailAlreadyTaken(data.email)) {
+      throw new ConflictException(undefined, { description: 'Email already taken' });
+    }
+
     const hashedPassword = data.password ? await hash(data.password, 8) : undefined;
 
     return this.usersRepository.update(id, { ...data, password: hashedPassword });
   }
 
-  public async delete(id: number): Promise<boolean> {
-    const user = await this.usersRepository.delete(id);
+  public async delete(id: number): Promise<void> {
+    await this.findOne({ id });
+    await this.usersRepository.delete(id);
+  }
+
+  private async isEmailAlreadyTaken(email: string): Promise<boolean> {
+    const user = await this.usersRepository.findOne({ email });
 
     if (user) {
       return true;

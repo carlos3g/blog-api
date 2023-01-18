@@ -1,7 +1,7 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 
 import { CreateCommentDto, UpdateCommentDto } from '../dto';
-import { CommentsRepository } from '../repositories/comments.repository';
+import { CommentsRepository } from '../repositories';
 
 @Injectable()
 export class CommentsService {
@@ -16,7 +16,13 @@ export class CommentsService {
   }
 
   async findOne(commentId: number) {
-    return this.commentRepository.findOne(commentId);
+    const comment = await this.commentRepository.findOne(commentId);
+
+    if (!comment) {
+      throw new NotFoundException();
+    }
+
+    return comment;
   }
 
   async findCommentsByPost(postId: number) {
@@ -27,20 +33,20 @@ export class CommentsService {
     return this.commentRepository.findCommentsByUser(userId);
   }
 
-  async update(commentId: number, userId: number, updateCommentDto: UpdateCommentDto) {
+  async update(commentId: number, authenticatedUserId: number, updateCommentDto: UpdateCommentDto) {
     const comment = await this.findOne(commentId);
 
-    if (comment.userId !== userId) {
+    if (comment.userId !== authenticatedUserId) {
       throw new UnauthorizedException();
     }
 
     return this.commentRepository.update(commentId, updateCommentDto);
   }
 
-  async delete(commentId: number, userId: number) {
+  async delete(commentId: number, authenticatedUserId: number) {
     const comment = await this.findOne(commentId);
 
-    if (comment.userId !== userId) {
+    if (comment.userId !== authenticatedUserId) {
       throw new UnauthorizedException();
     }
 

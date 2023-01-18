@@ -1,39 +1,45 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreatePostDto, FindAllPostsDTO, UpdatePostDto } from '../dto';
-import { PostsRepository } from '../repositories/posts.repository';
+import { PostsRepository } from '../repositories';
 
 @Injectable()
 export class PostsService {
   constructor(private postRepository: PostsRepository) {}
 
-  async create(createPostDto: CreatePostDto) {
+  public async create(createPostDto: CreatePostDto) {
     return this.postRepository.create(createPostDto);
   }
 
-  async findAll(criteria: FindAllPostsDTO) {
+  public async findAll(criteria: FindAllPostsDTO) {
     return this.postRepository.findAll(criteria);
   }
 
-  async findOne(postId: number) {
-    return this.postRepository.findOne(postId);
+  public async findOne(postId: number) {
+    const post = await this.postRepository.findOne(postId);
+
+    if (!post) {
+      throw new NotFoundException();
+    }
+
+    return post;
   }
 
-  async update(postId: number, userId: number, updatePostDto: UpdatePostDto) {
+  public async update(postId: number, authenticatedUserId: number, updatePostDto: UpdatePostDto) {
     const post = await this.findOne(postId);
 
-    if (post.userId !== userId) {
-      throw new UnauthorizedException();
+    if (post.userId !== authenticatedUserId) {
+      throw new ForbiddenException();
     }
 
     return this.postRepository.update(postId, updatePostDto);
   }
 
-  async delete(postId: number, userId: number) {
+  public async delete(postId: number, authenticatedUserId: number) {
     const post = await this.findOne(postId);
 
-    if (post.userId !== userId) {
-      throw new UnauthorizedException();
+    if (post.userId !== authenticatedUserId) {
+      throw new ForbiddenException();
     }
 
     return this.postRepository.delete(postId);
