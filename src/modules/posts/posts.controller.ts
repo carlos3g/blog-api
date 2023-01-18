@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { Request } from 'express';
 
@@ -7,6 +8,7 @@ import { JwtAuthGuard } from '@modules/auth/guards';
 import { CreateCommentDto, CreatePostDto, FindAllPostsDTO, UpdatePostDto } from './dto';
 import { CommentsService, PostsService } from './services';
 
+@ApiTags('posts')
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService, private readonly commentsService: CommentsService) {}
