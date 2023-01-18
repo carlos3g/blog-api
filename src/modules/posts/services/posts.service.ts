@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import { CreatePostDto, FindAllPostsDTO, UpdatePostDto } from './dto';
-import { PostsRepository } from './repositories/posts.repository';
+import { CreatePostDto, FindAllPostsDTO, UpdatePostDto } from '../dto';
+import { PostsRepository } from '../repositories/posts.repository';
 
 @Injectable()
 export class PostsService {

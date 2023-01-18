@@ -1,15 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 
 import { Request } from 'express';
 
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
-import { PostsService } from './posts.service';
-import { CreatePostDto, FindAllPostsDTO, UpdatePostDto } from './dto';
+import { CreateCommentDto, CreatePostDto, FindAllPostsDTO, UpdatePostDto } from './dto';
+import { CommentsService } from './services/comments.service';
+import { PostsService } from './services/posts.service';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(private readonly postsService: PostsService, private readonly commentsService: CommentsService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -27,6 +28,23 @@ export class PostsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postsService.findOne(+id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post(':id/comments')
+  createComment(@Param('id') postId: string, @Body() createCommentDto: CreateCommentDto, @Req() req: Request) {
+    const data = {
+      ...createCommentDto,
+      postId: +postId,
+      userId: req.user.userId,
+    };
+
+    return this.commentsService.create(data);
+  }
+
+  @Get(':id/comments')
+  findCommentsByPost(@Param('id') id: string) {
+    return this.commentsService.findCommentsByPost(+id);
   }
 
   @UseGuards(JwtAuthGuard)
