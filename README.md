@@ -1,73 +1,100 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+<div align="center">
+  <h1>
+    Blog api
+  </h1>
+  <blockquote>
+    A blog api with authentication and multiple users. Made with Nestjs.
+  </blockquote>
+  <div id="badges">
+    <img src="https://img.shields.io/github/repo-size/carlos3g/blog-api?color=4000FF" alt="repo-size" />
+    <img src="https://img.shields.io/github/issues-raw/carlos3g/blog-api?color=4000FF" alt="issues" />
+    <img src="https://img.shields.io/badge/license-MIT-4000FF" alt="license" />
+  </div>
+</div>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<div align="center">
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This is a blog rest api. Users can make posts, comments on posts and favorite posts made by other users. See [Features](#-features)
 
-## Description
+</div>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Table of contents
 
-## Installation
+- [Features](#-features)
+- [How to run](#-how-to-run)
+  - [With docker](#with-docker)
+  - [Without docker](#without-docker)
+- [Database Model](#-database-model)
+- [Technologies](#-technologies)
+- [Documentation](#-documentation)
+- [How to contribute](#-how-to-contribute)
+- [License](#-license)
 
-```bash
-$ yarn install
-```
+## 💻 Features
 
-## Running the app
+- Authentication
+- Favorite _posts_
+- Create/Delete/Update/List _users_
+- Create/Delete/Update/List _posts_
+- Create/Delete/Update/List _comments_
 
-```bash
-# development
-$ yarn run start
+## 🚀 How to run
 
-# watch mode
-$ yarn run start:dev
+> Before running the app, set up the `.env` file. See [.env.example](/.env.example)
 
-# production mode
-$ yarn run start:prod
-```
-
-## Test
+### With docker
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+# Runs app (dev):
+docker-compose up dev
 ```
 
-## Support
+### Without docker
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+# Installs dependencies:
+yarn install
 
-## Stay in touch
+# Runs app (dev):
+yarn dev:start
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 📝 Database model
 
-## License
+> ER Diagram was made using [draw.io](https://draw.io)
 
-Nest is [MIT licensed](LICENSE).
+![blog-api-mer](https://user-images.githubusercontent.com/52337966/213324344-9d55673a-7a9a-4ea6-8068-538c9a4bfc58.png)
+
+## 🛠 Technologies
+
+- API rest with `NestJs`
+- Authentication with `JWT token`
+- Validate requests with `class-validator`
+- Handling database with `prisma`
+- Documentation made with `swagger`
+
+## 📝 Documentation
+
+> Docs were made using swagger.
+
+Documentation is served at route `/api-docs`. So just run the app and check it!
+
+## 🤝 How to contribute
+
+- Is there any problem? Found a bug? Do you have any tips? Open an [issue](https://github.com/carlos3g/quotes-api/issues) describing it.
+
+- Want to contribute code? First read [this contribution guide](https://github.com/firstcontributions/first-contributions)
+
+- Don't forget to leave your star ⭐, it is also a way to contribute to the project
+
+## 📝 License
+
+This project is under the MIT license. See [LICENSE](LICENSE) for more details.
+
+---
+
+<div align="center">
+
+Created by [Carlos Mesquita](https://github.com/carlos3g) 💜
+
+</div>
